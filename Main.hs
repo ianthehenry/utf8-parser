@@ -38,8 +38,13 @@ utf8Parser = many' codePointParser <* endOfInput
 codePointParser :: Parser Word32
 codePointParser =
   byteSequence ["0xxxxxxx"] <|>
-  overlong 0x7F (byteSequence ["110xxxxx", "10xxxxxx"]) <|>
-  overlong 0x7FF (byteSequence ["1110xxxx", "10xxxxxx", "10xxxxxx"])
+  overlong 0x7F (multibyte "110xxxxx" 1) <|>
+  overlong 0x7FF (multibyte "1110xxxx" 2) <|>
+  checkedParser (overlong 0xFFFF (multibyte "11110xxx" 3))
+                (< 0x110000)
+                "illegal codepoint over 0x10FFFF"
+  where
+    multibyte leader num = byteSequence (leader : replicate num "10xxxxxx")
 
 overlong :: Word32 -> Parser Word32 -> Parser Word32
 overlong m parser = checkedParser parser (> m) "illegal overlong codepoint!"
