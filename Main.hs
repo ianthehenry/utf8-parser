@@ -40,11 +40,13 @@ codePointParser =
   byteSequence ["0xxxxxxx"] <|>
   overlong 0x7F (multibyte "110xxxxx" 1) <|>
   overlong 0x7FF (multibyte "1110xxxx" 2) <|>
-  checkedParser (overlong 0xFFFF (multibyte "11110xxx" 3))
-                (< 0x110000)
-                "illegal codepoint over 0x10FFFF"
+  checkedParser withMax (not . isSurrogate) "illegal surrogate pair"
   where
-    multibyte leader num = byteSequence (leader : replicate num "10xxxxxx")
+    multibyte leader count =
+      byteSequence (leader : replicate count "10xxxxxx")
+    fourByteParser = (overlong 0xFFFF (multibyte "11110xxx" 3))
+    withMax = checkedParser fourByteParser (< 0x110000) "illegal codepoint over 0x10FFFF"
+    isSurrogate w = w >= 0xD800 && w <= 0xDFFF
 
 overlong :: Word32 -> Parser Word32 -> Parser Word32
 overlong m parser = checkedParser parser (> m) "illegal overlong codepoint!"
