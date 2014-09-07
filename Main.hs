@@ -71,12 +71,12 @@ bytePattern :: String -> Parser SubByte
 bytePattern pattern = satisfyMaybe (matchByte pattern)
 
 matchByte :: String -> Word8 -> Maybe SubByte
-matchByte pattern byte = foldM check subZero (zip pattern bits)
+matchByte pattern byte = foldM (flip check) subZero (zip pattern bits)
   where
-    check b ('1', True) = Just b
-    check b ('0', False) = Just b
-    check b ('x', v) = Just (pushBit v b)
-    check _ _ = Nothing
+    check ('1', True)  = Just
+    check ('0', False) = Just
+    check ('x', bit)   = Just . pushBit bit
+    check _            = const Nothing
     bits = testBit byte <$> [7, 6 .. 0]
 
 satisfyMaybe :: (Word8 -> Maybe a) -> Parser a
