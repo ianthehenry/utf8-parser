@@ -33,7 +33,7 @@ parseUtf8 :: ByteString -> Either String [Word32]
 parseUtf8 = parseOnly utf8Parser
 
 utf8Parser :: Parser [Word32]
-utf8Parser = many' codePointParser <* endOfInput
+utf8Parser = manyTill' codePointParser endOfInput
 
 codePointParser :: Parser Word32
 codePointParser =
