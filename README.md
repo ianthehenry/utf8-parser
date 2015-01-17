@@ -8,7 +8,7 @@ I'm not very familiar with Haskell. I've been playing with it for a little while
 
 So don't treat the code in this repository like "the right way to do it." This is code written by a beginner. A year from now I'm sure I'll look back on it and cringe.
 
-If you happen to know a bit about Haskell and would like to give me some pointer on things I could be doing better, please do!
+If you happen to know a bit about Haskell and would like to give me some pointers on things I could be doing better, please do!
 
 # How did you set this up
 
@@ -16,7 +16,7 @@ Since I had a small amount of trouble getting up-and-running with Haskell, and s
 
 # Installing Haskell
 
-I installed Haskell from [ghcformacosx](http://ghcformacosx.github.io/), because Homebrew doesn't work so well and the Haskell Platform is several versions behind. After doing all the right stuff, I did this to generate the project:
+I installed Haskell from [ghcformacosx](http://ghcformacosx.github.io/), because Homebrew doesn't work so well and at the time the Haskell Platform was several versions behind. After doing all the right stuff, I did this to generate the project:
 
     $ mkdir utf8-parser
     $ cd !$
