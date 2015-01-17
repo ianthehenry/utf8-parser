@@ -1,8 +1,8 @@
 # Decoding UTF-8 with Parser Combinators: Official Strategy Guide
 
-This is the code associated with a yet-to-be-published blog post.
+This is the code associated with [this blog post that I wrote](https://ianthehenry.com/2015/1/17/decoding-utf-8/).
 
-Note that this code is slightly different in a few places from the code I walk through in the blog post. As the post is not intended for an audience very familiar with Haskell, it has some functions written out more verbosely than they need to be.
+Note that this code is slightly different in a few places from the code I walk through in the post. As the post is intended for an audience less familiar with Haskell, it has some functions written out more verbosely than they need to be. It might be interesting to compare the two to see how they differ. Or not.
 
 # Haskell
 
