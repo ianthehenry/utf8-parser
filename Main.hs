@@ -53,7 +53,7 @@ overlong m parser = checkedParser parser (> m) "illegal overlong codepoint!"
 
 byteSequence :: [String] -> Parser Word32
 byteSequence patterns = do
-  subBytes <- sequence (bytePattern <$> patterns)
+  subBytes <- mapM bytePattern patterns
   return (foldl mergeSubByte 0 subBytes)
 
 mergeSubByte :: Word32 -> SubByte -> Word32
