@@ -53,7 +53,7 @@ overlong m parser = checkedParser parser (> m) "illegal overlong codepoint!"
 
 byteSequence :: [String] -> Parser Word32
 byteSequence patterns = do
-  subBytes <- mapM bytePattern patterns
+  subBytes <- mapM bitPattern patterns
   return (foldl mergeSubByte 0 subBytes)
 
 mergeSubByte :: Word32 -> SubByte -> Word32
@@ -69,8 +69,8 @@ pushBit :: Bool -> SubByte -> SubByte
 pushBit True (b, n) = (setBit (shiftL b 1) 0, n + 1)
 pushBit False (b, n) = (shiftL b 1, n + 1)
 
-bytePattern :: String -> Parser SubByte
-bytePattern pattern = satisfyMaybe (matchByte pattern)
+bitPattern :: String -> Parser SubByte
+bitPattern pattern = satisfyMaybe (matchByte pattern)
 
 matchByte :: String -> Word8 -> Maybe SubByte
 matchByte pattern byte = foldM (flip check) subZero (zip pattern bits)
