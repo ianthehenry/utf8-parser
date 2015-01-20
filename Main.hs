@@ -57,17 +57,17 @@ byteSequence patterns = do
   return (foldl mergeSubByte 0 subBytes)
 
 mergeSubByte :: Word32 -> SubByte -> Word32
-mergeSubByte whole (SubByte byte bits) =
+mergeSubByte whole (byte, bits) =
   shiftL whole bits .|. fromIntegral byte
 
-data SubByte = SubByte Word8 Int deriving (Show, Eq)
+type SubByte = (Word8, Int)
 
 subZero :: SubByte
-subZero = SubByte 0 0
+subZero = (0, 0)
 
 pushBit :: Bool -> SubByte -> SubByte
-pushBit True (SubByte b n) = SubByte (setBit (shiftL b 1) 0) (n + 1)
-pushBit False (SubByte b n) = SubByte (shiftL b 1) (n + 1)
+pushBit True (b, n) = (setBit (shiftL b 1) 0, n + 1)
+pushBit False (b, n) = (shiftL b 1, n + 1)
 
 bytePattern :: String -> Parser SubByte
 bytePattern pattern = satisfyMaybe (matchByte pattern)
